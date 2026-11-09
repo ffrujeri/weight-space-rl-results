@@ -1,6 +1,6 @@
 # Astra vs SAC: results from random initialization
 
-Published results: https://ffrujeri.github.io/weight-space-rl-results/
+Published results: https://felipefrujeri.dev/weight-space-rl-results/
 
 This repository contains the standalone results page for a three-environment
 control pilot comparing direct weight programming by Astra with CleanRL SAC.
