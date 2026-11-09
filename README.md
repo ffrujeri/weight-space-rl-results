@@ -2,10 +2,16 @@
 
 Published results: https://felipefrujeri.dev/weight-space-rl-results/
 
-This repository contains the standalone results page for two control studies
-on Pendulum, Hopper, and Walker2d, starting from random actor weights.
+This repository contains a standalone results page for from-random control
+experiments on Pendulum, Hopper, Walker2d, HalfCheetah, and Humanoid.
 
-The latest addition traces what Astra changed in the seed-7 Walker2d controller.
+The newest section reports completed HalfCheetah and Humanoid comparisons against
+SAC at 36,864 interactions, with 100 held-out resets per policy, training curves,
+and numerical forecasts committed before Astra received candidate feedback.
+It reports prediction errors against a persistence reference and distinguishes
+Humanoid's short survival from reliable locomotion.
+
+The observability section traces what Astra changed in the seed-7 Walker2d controller.
 It includes the eight submissions, exact compact-controller recovery, component
 removal tests on 20 fresh shared resets, and two observability figures. It
 distinguishes measured policy behavior from unknown internal model representations.
@@ -17,7 +23,7 @@ diagnostics. No-feedback curves are audits measured after commitment.
 
 The original Astra-versus-CleanRL-SAC comparison is preserved below as historical
 context. It supplied richer physics information and used a different protocol.
-Both studies are single-seed feasibility pilots; they do not establish a general
+These experiments are single-seed feasibility pilots; they do not establish a general
 ranking across algorithms or feedback types.
 
 `index.html` embeds its figures and requires no external assets or login.
