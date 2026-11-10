@@ -39,3 +39,5 @@ Open it locally, or use the GitHub Pages link above. GitHub Pages publishes
 from the root of the `main` branch.
 
 Latest addition: [Microduck controller-family search](https://felipefrujeri.dev/weight-space-rl-results/#microduck-gain-search), with fresh held-out tests, all development candidates, and protocol limitations.
+
+Latest replication: [all five numerical controller-search seeds](https://felipefrujeri.dev/weight-space-rl-results/#microduck-gain-replication), compared with the frozen Astra policy on a third test suite.
