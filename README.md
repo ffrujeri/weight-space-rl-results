@@ -1,11 +1,17 @@
-# Astra weight programming: observability, feedback ablation, and SAC
+# Astra weight programming: control experiments and observability
 
 Published results: https://felipefrujeri.dev/weight-space-rl-results/
 
 This repository contains a standalone results page for from-random control
-experiments on Pendulum, Hopper, Walker2d, HalfCheetah, and Humanoid.
+experiments on Pendulum, Hopper, Walker2d, HalfCheetah, Humanoid, and Microduck.
 
-The newest section reports completed HalfCheetah and Humanoid comparisons against
+The newest section reports Microduck's completed random-network, zero-action HOME,
+and early native PPO baseline audit. It includes 480 held-out episodes across five
+fixed commands, return/survival/velocity plots, protocol details, and limitations.
+The baseline shows reward gains before reliable command following; ongoing Astra
+and longer PPO studies are explicitly separated from completed results.
+
+The HalfCheetah and Humanoid section reports completed comparisons against
 SAC at 36,864 interactions, with 100 held-out resets per policy, training curves,
 and numerical forecasts committed before Astra received candidate feedback.
 It reports prediction errors against a persistence reference and distinguishes
