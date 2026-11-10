@@ -89,7 +89,11 @@ The next registered control tests initial exploration std 0.1 with native versus
 normalization for the earlier three-gain failures; it stays in this same PR. Its six smoke runs
 completed training, but only five passed the export gate: fixed-normalizer repaired three-gain
 had max ONNX action difference 0.0001068 rad, above the registered 0.0001-rad limit. That failure
-is retained; no long low-noise training run has started.</p>
+is retained. A documented float64 export correction now passes against the unchanged CUDA float32
+actors on all 512 verification inputs for all six checkpoints (worst error 0.0000359 rad), using
+the same tolerance and no new environment experience. Training weights, PPO and normalization
+remain unchanged. The six long low-noise runs have started on the two workstation GPUs;
+their held-out results are pending.</p>
 </section>
 
 <section id="microduck-fixed-normalizer">
