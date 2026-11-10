@@ -41,3 +41,5 @@ from the root of the `main` branch.
 Latest addition: [Microduck controller-family search](https://felipefrujeri.dev/weight-space-rl-results/#microduck-gain-search), with fresh held-out tests, all development candidates, and protocol limitations.
 
 Latest replication: [all five numerical controller-search seeds](https://felipefrujeri.dev/weight-space-rl-results/#microduck-gain-replication), compared with the frozen Astra policy on a third test suite.
+
+New research line: [hidden-dynamics prediction](https://felipefrujeri.dev/weight-space-rl-results/#microduck-dynamics), with frozen fitted predictors cross-tested under two actuator conditions. Policy-transfer tests are ongoing at this snapshot.
