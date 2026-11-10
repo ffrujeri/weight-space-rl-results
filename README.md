@@ -42,4 +42,4 @@ Latest addition: [Microduck controller-family search](https://felipefrujeri.dev/
 
 Latest replication: [all five numerical controller-search seeds](https://felipefrujeri.dev/weight-space-rl-results/#microduck-gain-replication), compared with the frozen Astra policy on a third test suite.
 
-New research line: [hidden-dynamics prediction](https://felipefrujeri.dev/weight-space-rl-results/#microduck-dynamics), with frozen fitted predictors cross-tested under two actuator conditions. Policy-transfer tests are ongoing at this snapshot.
+New research line: [hidden-dynamics prediction](https://felipefrujeri.dev/weight-space-rl-results/#microduck-dynamics), with frozen fitted predictors cross-tested under two actuator conditions. The complete 1,920-episode policy-transfer matrix is now included, alongside the prediction result.
