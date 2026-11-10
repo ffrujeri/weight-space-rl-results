@@ -37,3 +37,5 @@ ranking across algorithms or feedback types.
 `index.html` embeds its figures and requires no external assets or login.
 Open it locally, or use the GitHub Pages link above. GitHub Pages publishes
 from the root of the `main` branch.
+
+Latest addition: [Microduck controller-family search](https://felipefrujeri.dev/weight-space-rl-results/#microduck-gain-search), with fresh held-out tests, all development candidates, and protocol limitations.
