@@ -65,6 +65,21 @@ integer counts and file hashes. Artificial inputs are not physical trajectories.
 <p>This establishes a structural repair, not an RL return or sample-efficiency advantage. Native PPO's
 observation normalization and initial Gaussian standard deviation 1.0 require explicit treatment before
 the planned matched training comparison. The synthetic-fit weights will not initialize that comparison.</p>
+<h3>Normalization can change the programmed policy before learning starts</h3>
+<p>We replayed the original 6,528 training observations through the native normalizer in batches of
+32, with no optimizer or simulator steps. Updating only normalization substantially changes the
+actions on 1,856 existing validation observations. The repaired variants give the same numbers as
+their originals because their action functions are still identical.</p>
+<div class="table"><table><thead><tr><th scope="col">Actor</th><th scope="col">Initial action RMS</th><th scope="col">RMS drift after 32 inputs</th><th scope="col">RMS drift after all inputs</th><th scope="col">Max error after affine rebase</th></tr></thead><tbody><tr><td>Original random</td><td>0.0653</td><td>0.0830</td><td>0.0556</td><td>6.33e-08</td></tr><tr><td>Three-gain: original</td><td>0.1701</td><td>1.4995</td><td>0.3546</td><td>7.63e-06</td></tr><tr><td>k2: original</td><td>0.1071</td><td>0.1807</td><td>0.2031</td><td>1.34e-07</td></tr></tbody></table></div>
+<p class="caption">All action quantities are radians. This is replay in archive order, not an
+on-policy rollout or a measured effect on return. The separate affine-rebase check adjusts the first
+layer for the changed mean/std; all five actors pass the unchanged 1e-5-rad tolerance without training.
+It is a numerical control and will not be used in the native-PPO comparison. Native Gaussian noise
+has per-coordinate standard deviation 1.0 rad; that configured value is not a measured reward effect.</p>
+<p>The next pilot is registered: all five initializations receive unchanged native PPO settings and
+4,915,200 training interactions each, with separate smoke and deterministic evaluation budgets.
+First-rollout observability will distinguish normalizer drift from optimizer changes. No PPO result
+is claimed until those runs and their held-out evaluations finish.</p>
 <p>This distinct trainability line is in <a href="https://github.com/ffrujeri/weight-space-rl/pull/3">PR #3</a>;
 <a href="https://forge.coreweave.com/wandb/nvidia/weight-space-rl/runs/md-plasticity-diagnostic-v1">W&amp;B contains all diagnostic curves</a>.
 The dynamics-identification experiments below remain in PR #2.</p>
