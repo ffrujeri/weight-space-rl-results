@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Astra weight updates versus PPO — Microduck</title><style>
+body{font-family:system-ui,sans-serif;line-height:1.65;color:#172235;background:#f5f7fb;margin:0}main{max-width:1050px;margin:auto;padding:40px 24px 70px}h1{line-height:1.2;font-size:2.4rem}h2{margin-top:2em}a{color:#0759a7}.callout{background:#e7f1fb;border-left:5px solid #1165a8;padding:18px 22px;border-radius:5px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:20px 0}.card{background:white;border:1px solid #dce3ed;padding:20px;border-radius:8px}.table{overflow-x:auto}table{border-collapse:collapse;width:100%;background:white}th,td{text-align:left;padding:11px;border-bottom:1px solid #dce3ed}th{background:#eaf0f7}.small{color:#526176;font-size:.9rem}code{background:#eaf0f7;padding:2px 5px}li{margin:8px 0}</style><main>
+<p><a href="https://github.com/ffrujeri/weight-space-rl/pull/4">Experiment PR</a> · <a href="https://wandb.ai/nvidia/weight-space-rl/runs/md-direct-comparison-v1">Live W&amp;B comparison</a> · <a href="../">Earlier research archive</a></p>
+<h1>Can Astra weight updates replace PPO?</h1>
+<div class="callout"><strong>Direct comparison from random initialization. In progress.</strong>
+<p>Astra repeatedly collects experience and assigns new neural-policy parameters. PPO repeatedly collects
+experience and applies its normal learning update. No PPO or subsequent RL fine-tuning improves the Astra policies.</p>
+<p><strong>Held-out results are pending.</strong> The table below is a progress snapshot, not evidence that either method wins.</p></div>
+<div class="cards"><div class="card"><h2>Astra</h2><p>Collect 49,152 interactions → inspect experience → edit policy weights → repeat.</p><p>32 rounds per independent editor. All MLP weights and exploration std are editable. No policy gradients or numerical policy optimizer.</p></div>
+<div class="card"><h2>PPO</h2><p>Collect rollouts → PPO updates → repeat.</p><p>Native PPO hyperparameters, 64 environments and 24 steps per update. 32 PPO iterations match one Astra feedback block.</p></div></div>
+<h2>Registered comparison</h2><ul>
+<li><strong>Three independent pairs:</strong> actor seeds 41, 42 and 43, with a fresh Astra context for each. Both methods start from the exact same random actor tensors within each pair.</li>
+<li><strong>Same interaction budget:</strong> 1,572,864 training interactions per arm per pair; 9,437,184 total across six arms. All Astra feedback experience is charged.</li>
+<li><strong>Same task and preprocessing:</strong> pinned Microduck stationary configuration, rewards and architecture; native online actor observation normalization in both arms. Both start with Gaussian std 1.0 and control it through their learning method.</li>
+<li><strong>Primary outcome:</strong> held-out final episode return, with paired learning curves at 0, 4, 8, 16 and 32 feedback-block budgets. Survival and command response explain the behavior behind the return.</li>
+<li><strong>No selection from tests:</strong> freeze every checkpoint before testing all 27 unique policies for 4,320 first episodes. Identical initial policies are evaluated once per pair. Astra receives no test scores or PPO results.</li></ul>
+<h2>Run status</h2><p class="small">Snapshot: 2026-11-09T22:18:03-08:00 (America/Los_Angeles). W&amp;B links show live progress.
+“Updates” means accepted weight edits for Astra and PPO iterations for PPO; these are different units.</p>
+<div class="table"><table><thead><tr><th>Actor seed</th><th>Method</th><th>Status</th><th>Training interactions</th><th>Updates</th><th>Metrics</th></tr></thead><tbody>
+<tr><td>41</td><td>Astra</td><td>running</td><td>196,608</td><td>4</td><td><a href="https://wandb.ai/nvidia/weight-space-rl/runs/md-direct-astra-s41-v1">W&amp;B</a></td></tr><tr><td>41</td><td>Ppo</td><td>running</td><td>321,024</td><td>209</td><td><a href="https://wandb.ai/nvidia/weight-space-rl/runs/md-direct-ppo-s41-v1">W&amp;B</a></td></tr><tr><td>42</td><td>Astra</td><td>running</td><td>344,064</td><td>7</td><td><a href="https://wandb.ai/nvidia/weight-space-rl/runs/md-direct-astra-s42-v1">W&amp;B</a></td></tr><tr><td>42</td><td>Ppo</td><td>running</td><td>691,200</td><td>450</td><td><a href="https://wandb.ai/nvidia/weight-space-rl/runs/md-direct-ppo-s42-v1">W&amp;B</a></td></tr><tr><td>43</td><td>Astra</td><td>running</td><td>245,760</td><td>4</td><td><a href="https://wandb.ai/nvidia/weight-space-rl/runs/md-direct-astra-s43-v1">W&amp;B</a></td></tr><tr><td>43</td><td>Ppo</td><td>running</td><td>314,880</td><td>205</td><td><a href="https://wandb.ai/nvidia/weight-space-rl/runs/md-direct-ppo-s43-v1">W&amp;B</a></td></tr></tbody></table></div>
+<h2>Validation and interpretation</h2><p>Protocol <code>f6a921e</code>; paired initial actors <code>882dfc2</code>;
+passed smoke gates <code>45e31b5</code>. The five-iteration PPO smoke and broker collection/edit smoke passed,
+including protected normalizer buffers, finite simulation, numeric submission boundaries and a 512-input
+normalizer-baked policy export check. Four focused integrity tests passed.</p>
+<p>Smoke accounting includes the original broker API integration failure: 64 interactions before correction,
+plus 7,680 PPO and 4,096 successful broker-smoke interactions, totaling <strong>11,840</strong>.
+The failed source/log and same-seed correction are preserved. No experimental editor used those smoke trajectories.</p>
+<p>Three pairs provide a first replicated test, not a broad claim across tasks or converged budgets. Initialization,
+environment and editor randomness vary jointly. PPO retains its native privileged critic observations; Astra receives
+actor trajectories and task semantics. Matching interactions does not match prior knowledge, inference compute or cost.
+End-to-end and collection/waiting times are recorded separately; model token/billing telemetry may be unavailable.</p>
+<p class="small">This page is dedicated to replacing PPO updates with Astra updates. Earlier PPO warm-start results
+do not enter this comparison. Complete outcomes and curves will appear here after the registered tests finish.</p>
+</main></html>
