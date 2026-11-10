@@ -5,11 +5,13 @@ Published results: https://felipefrujeri.dev/weight-space-rl-results/
 This repository contains a standalone results page for from-random control
 experiments on Pendulum, Hopper, Walker2d, HalfCheetah, Humanoid, and Microduck.
 
-The newest section reports Microduck's completed random-network, zero-action HOME,
-and early native PPO baseline audit. It includes 480 held-out episodes across five
-fixed commands, return/survival/velocity plots, protocol details, and limitations.
-The baseline shows reward gains before reliable command following; ongoing Astra
-and longer PPO studies are explicitly separated from completed results.
+The newest section reports Microduck's completed full-feedback/no-feedback Astra
+comparison against equal-budget PPO and constant-bias search, plus a larger native
+PPO reference. It includes command-conditioned motion, survival, training/candidate
+curves, and recovery of Astra's three-parameter ankle controller. A state-feedback
+removal test separates controller feedback from its fixed bias. The initial
+baseline audit is preserved below. All studies disclose their single-seed limits
+and distinguish balance from commanded locomotion.
 
 The HalfCheetah and Humanoid section reports completed comparisons against
 SAC at 36,864 interactions, with 100 held-out resets per policy, training curves,
