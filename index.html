@@ -19,7 +19,8 @@ li{margin:10px 0}footer{border-top:1px solid #cbd5e1;margin-top:44px;padding-top
 <h1>Astra weight programming from random initialization</h1>
 <p class="lead">Six control environments, prospective forecasts, feedback ablations, and policy observability.</p>
 <p>Updated November 10, 2026 · single-seed pilots · evaluation budgets listed for each study</p>
-<nav aria-label="Report sections"><a href="#microduck-first-iteration-control">New: first-iteration control tests</a> ·
+<nav aria-label="Report sections"><a href="#microduck-construction-replication">In progress: construction replication</a> ·
+<a href="#microduck-first-iteration-control">First-iteration control tests</a> ·
 <a href="#microduck-exploration-scale">Exploration-scale control</a> ·
 <a href="#microduck-first-update">First-update audit</a> ·
 <a href="#microduck-capacity-replication">Capacity and seed replication</a> ·
@@ -38,6 +39,37 @@ li{margin:10px 0}footer{border-top:1px solid #cbd5e1;margin-top:44px;padding-top
 <a href="#observability">What Astra changed</a> ·
 <a href="#feedback-ablation">Feedback ablation</a> ·
 <a href="#original-pilot">Original Astra vs SAC pilot</a> · <a href="#next-experiments">Next experiments</a></nav></header>
+
+<section id="microduck-construction-replication">
+<h2>In progress: rebuilding k2 from independent experience</h2>
+<div class="callout"><strong>The next study tests the complete construction pipeline across three fresh blocks.</strong>
+The earlier capacity study held fitting data and random actors fixed. Here each block supplies new
+probe experience, new random actors and a new PPO seed. All twelve initial actors are frozen, all
+twelve smoke gates pass, and the full PPO queues have started on both GPUs. Held-out results are pending.</div>
+<p>Each block compares the exact Astra-derived k2 numerical recipe, its function-preserving repair,
+a capacity-matched compact random actor, and a wide random actor. No fresh editor choices or tuning:
+the selected recipe is executed on new data. This tests repeatability of that program, not whether
+fresh language-model reasoning is necessary or what its private internal representations contain.</p>
+<div class="table"><table><thead><tr><th scope="col">Block</th><th scope="col">Random actor seed</th><th scope="col">PPO seed</th><th scope="col">Collected probe transitions</th><th scope="col">Retained fitting transitions</th><th scope="col">Five-step fitting windows</th></tr></thead><tbody><tr><td>1</td><td>21</td><td>271001</td><td>11,104</td><td>4,480</td><td>3,456</td></tr><tr><td>2</td><td>22</td><td>271002</td><td>9,920</td><td>4,320</td><td>3,296</td></tr><tr><td>3</td><td>23</td><td>271003</td><td>10,240</td><td>4,320</td><td>3,296</td></tr></tbody></table></div>
+<p>Probe collection preserves the original paired-friction and whole-batch stopping rule. Only the
+high-friction prefixes fit the selected recipe; low-friction traces determine the shared valid prefix.
+The three blocks jointly vary data, random initialization and PPO randomness, so they do not isolate
+the variance of each factor. Each block uses the same critic initialization seed and PPO settings across its four arms.</p>
+<p>All 608,244 newly fitted actor/model coordinates reproduce exactly from committed data using NumPy.
+Compact embedding and repair have zero measured action difference on 18,304–18,624 old/new observations
+per block. All twelve smoke tests pass finite-state, reward, capacity and 512-input export checks;
+the largest export error is 3.6e-06 rad
+against the registered 1e-4 limit. These validate construction and execution, not control performance.</p>
+<p class="caption">Protocol 1eadc47; initial actors frozen at 43c290b; complete smoke gates at 8d3b504.
+Completed probe collection: 31,264 simulator transitions, of which 13,120 are retained for fitting.
+Completed smoke tests: 92,160 interactions. Planned new PPO training: 58,982,400 interactions across twelve
+runs; planned held-out testing: 24 initial/final policies and 3,840 first episodes, after all final actors
+freeze. No intermediate-checkpoint selection. Two collector startup failures occurred before any
+environment step because of a provenance path-type error; their logs and zero-data correction are retained.</p>
+<p>Training-start snapshot: 2026-11-10T04:57:11.190730+00:00.
+<a href="https://wandb.ai/nvidia/weight-space-rl/runs/md-construction-replication-v1">Live W&amp;B scalar metrics</a>.
+Same trainability question, same <a href="https://github.com/ffrujeri/weight-space-rl/pull/3">PR #3</a>.</p>
+</section>
 
 <section id="microduck-first-iteration-control">
 <h2>The three-gain controllers already fail after the first PPO iteration</h2>
